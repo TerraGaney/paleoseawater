@@ -2,8 +2,9 @@
 
 This folder contains:
 (1) 8 MarChemSpec input files (.dat)
-(2) 8 corresponding MarChemSpec output files (.rs2)
-(3) a script for processing raw output and calculating key seawater properties
+(2) 8 corresponding MarChemSpec output files for ion activities and concentrations (.rs2)
+(3) 8 corresponding MarChemSpec output files for K calculations (.rs5)
+(4) a script for processing raw output and calculating key seawater properties
 
 The processing routine process-output.py was used to generate Table 1 in REF(yr), and is intended to be used for consistent calculations of seawater chemical properties based on MarChemSpec results. 
 
