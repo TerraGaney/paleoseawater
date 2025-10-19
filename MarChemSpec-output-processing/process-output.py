@@ -80,6 +80,33 @@ class LoadOutput():
         self.molSrCO3 = self.MCSResultsTable['mSRCO3'][0]
         self.actWater = self.MCSResultsTable['aW'][0]
 
+        concentration_conversion_factor = 1 + (np.multiply(self.molH,(1.0078/1000)) + np.multiply(self.molNa,(22.989/1000)) + np.multiply(self.molMg,(24.305/1000)) + np.multiply(self.molCa,(40.078/1000)) + np.multiply(self.molK,(39.10/1000)) + np.multiply(self.molMgOH,(41.318/1000)) + np.multiply(self.molSr,(87.62/1000)) + np.multiply(self.molMgF,(43.31/1000)) + np.multiply(self.molCaF,(59.08/1000)) + np.multiply(self.molCl,(35.45/1000)) + np.multiply(self.molSO4,(96.07/1000)) + np.multiply(self.molHSO4,(97.064/1000)) + np.multiply(self.molOH,(17.008/1000)) + np.multiply(self.molBr,(79.9/1000)) + np.multiply(self.molHCO3,(61.018/1000)) + np.multiply(self.molCO3,(60.009/1000)) + np.multiply(self.molBOH4,(78.84/1000)) + np.multiply(self.molF,(19/1000)) + np.multiply(self.molBOH3,(61.83/1000)) + np.multiply(self.molCO2,(44.01/1000)) + np.multiply(self.molHF,(20.008/1000)) + np.multiply(self.molMgCO3,(84.32/1000)) + np.multiply(self.molCaCO3,(100.087/1000)) + np.multiply(self.molSrCO3,(147.63/1000)))
+
+        self.molH = np.divide(self.molH, concentration_conversion_factor)
+        self.molNa = np.divide(self.molNa, concentration_conversion_factor)
+        self.molMg = np.divide(self.molMg, concentration_conversion_factor)
+        self.molCa = np.divide(self.molCa, concentration_conversion_factor)
+        self.molK = np.divide(self.molK, concentration_conversion_factor)
+        self.molMgOH = np.divide(self.molMgOH, concentration_conversion_factor)
+        self.molSr = np.divide(self.molSr, concentration_conversion_factor)
+        self.molMgF = np.divide(self.molMgF, concentration_conversion_factor)
+        self.molCaF = np.divide(self.molCaF, concentration_conversion_factor)
+        self.molCl = np.divide(self.molCl, concentration_conversion_factor)
+        self.molSO4 = np.divide(self.molSO4, concentration_conversion_factor)
+        self.molHSO4 = np.divide(self.molHSO4, concentration_conversion_factor)
+        self.molOH = np.divide(self.molOH, concentration_conversion_factor)
+        self.molBr = np.divide(self.molBr, concentration_conversion_factor)
+        self.molHCO3 = np.divide(self.molHCO3, concentration_conversion_factor)
+        self.molCO3 = np.divide(self.molCO3, concentration_conversion_factor)
+        self.molBOH4 = np.divide(self.molBOH4, concentration_conversion_factor)
+        self.molF = np.divide(self.molF, concentration_conversion_factor)
+        self.molBOH3 = np.divide(self.molBOH3, concentration_conversion_factor)
+        self.molCO2 = np.divide(self.molCO2, concentration_conversion_factor)
+        self.molHF = np.divide(self.molHF, concentration_conversion_factor)
+        self.molMgCO3 = np.divide(self.molMgCO3, concentration_conversion_factor)
+        self.molCaCO3 = np.divide(self.molCaCO3, concentration_conversion_factor)
+        self.molSrCO3 = np.divide(self.molSrCO3, concentration_conversion_factor)
+
 
     def LoadKsOutput(self, rs5filename):
 
@@ -122,7 +149,7 @@ class GenerateTableEntry():
     def __init__(self, rs2filename, rs5filename, comptype, tempC):
         self.Output = LoadOutput(rs2filename, rs5filename)
         self.CalculateKs(tempC)
-        self.CalculateChem()
+        self.CalculateChem(comptype)
         self.TableEntry(comptype, tempC)
     
 
@@ -144,25 +171,21 @@ class GenerateTableEntry():
         self.KS = self.Output.KS
 
 
-    def CalculateChem(self):
+    def CalculateChem(self, comptype):
 
         # ------------------ Salinity ------------------ #  
-        self.Sal = self.Output.molH*1.0078 + self.Output.molNa*22.99 + self.Output.molMg*24.31 + self.Output.molCa*40.08 + self.Output.molK*39.10 + self.Output.molMgOH*41.318 + self.Output.molSr*87.62 + self.Output.molMgF*43.31 + self.Output.molCaF*59.08 + self.Output.molCl*35.45 + self.Output.molSO4*96.07 + self.Output.molHSO4*97.064 + self.Output.molOH*17.008 + self.Output.molBr*79.9 + self.Output.molHCO3*61.018 + self.Output.molCO3*60.009 + self.Output.molBOH4*78.84 + self.Output.molF*19 + self.Output.molBOH3*61.83 + self.Output.molCO2*44.01 + self.Output.molHF*20.008 + self.Output.molMgCO3*84.32 + self.Output.molCaCO3*100.087 + self.Output.molSrCO3*147.63
-
+        self.Sal = (self.Output.molH*1.0078 + self.Output.molNa*22.9899 + self.Output.molMg*24.305 + self.Output.molCa*40.078 + self.Output.molK*39.098 + self.Output.molSr*87.62 + self.Output.molCl*35.45 + self.Output.molSO4*96.06 + self.Output.molOH*17.008 + self.Output.molBr*79.9 + self.Output.molHCO3*61.062 + self.Output.molCO3*60.01 + self.Output.molBOH4*78.84 + self.Output.molF*18.99 + self.Output.molBOH3*61.832 + self.Output.molCO2*44.01)*0.96355343
+        
         # ------------------ Ionic strength ------------------ #  
         m_z_H = self.Output.molH * 1
         m_z_Na = self.Output.molNa * 1
         m_z_Mg = self.Output.molMg * 4
         m_z_Ca = self.Output.molCa * 4
         m_z_K = self.Output.molK * 1
-        m_z_MgOH = self.Output.molMgOH * 1
         m_z_Sr = self.Output.molSr * 4
-        m_z_MgF = self.Output.molMgF * 1
-        m_z_CaF = self.Output.molCaF * 1
 
         m_z_Cl = self.Output.molCl * 1
         m_z_SO4 = self.Output.molSO4 * 4
-        m_z_HSO4 = self.Output.molHSO4 * 1
         m_z_OH = self.Output.molOH * 1
         m_z_Br = self.Output.molBr * 1
         m_z_HCO3 = self.Output.molHCO3 * 1
@@ -170,19 +193,23 @@ class GenerateTableEntry():
         m_z_BOH4 = self.Output.molBOH4 * 1
         m_z_F = self.Output.molF * 1
 
-        input_ion_sum = m_z_H + m_z_Na + m_z_Mg + m_z_Ca + m_z_K + m_z_MgOH + m_z_Sr + m_z_MgF + m_z_CaF + m_z_Cl + m_z_SO4 + m_z_HSO4 + m_z_OH + m_z_Br + m_z_HCO3 + m_z_CO3 + m_z_BOH4 + m_z_F
+        input_ion_sum = m_z_H + m_z_Na + m_z_Mg + m_z_Ca + m_z_K + m_z_Sr + m_z_Cl + m_z_SO4 + m_z_OH + m_z_Br + m_z_HCO3 + m_z_CO3 + m_z_BOH4 + m_z_F
         self.IonicStr = 0.5 * (input_ion_sum)
 
-        # ------------------ Omega ------------------ #  
+        # ------------------ Carbonate chemistry ------------------ #  
         self.Omega = self.Output.molCO3*self.Output.molCa/self.KspC
-
+        self.pHF = -np.log10(self.Output.molH)
+        self.pHT = -np.log10(self.Output.molH+self.Output.molHSO4)
+        self.ALK = 2388
+        self.DIC = 2038
+    
 
     def TableEntry(self, comptype, tempC):
 
         # ------------------ Create dataframe ------------------ #  
 
-        data = [self.K0, self.K1, self.K2, self.KB, self.KW, self.KspC, self.KspA, self.KS, tempC, self.Sal, self.IonicStr, self.Omega]
-        self.Column = pd.DataFrame(data, columns=[comptype], index=['K0','K1','K2','KB','KW','KspC','KspA','KS','TempC','Sal','IonicStr','Omega'])
+        data = [self.K0, self.K1, self.K2, self.KB, self.KW, self.KspC, self.KspA, self.KS, tempC, self.Sal, self.Output.molCa, self.Output.molMg, self.Output.molSO4, self.IonicStr, self.pHF, self.pHT, self.ALK, self.DIC, self.Omega]
+        self.Column = pd.DataFrame(data, columns=[comptype], index=['K0','K1','K2','KB','KW','KspC','KspA','KS','TempC','Sal','Ca2+','Mg2+','SO42-','IonicStr','pHF','pHT','ALK', 'DIC','Omega'])
 
 
 if __name__ == '__main__':
@@ -196,15 +223,15 @@ if __name__ == '__main__':
     # NOTE: For user purposes, these lines may be commented out and new filename strings and composition headers provided (plus a temperature in deg C) to generate a new table for a different composition(s). 
     Column1 = ReturnTableEntry('MCS_RSW_25deg','RSW_25deg',25.0)
     Column2 = ReturnTableEntry('MCS_RSW_0deg','RSW_0deg',0.0)
-    # Column3 = ReturnTableEntry('MCS_ESW_CaMg_25deg','ESW_CaMg_25deg',25.0)
-    # Column4 = ReturnTableEntry('MCS_ESW_CaMg_0deg','ESW_CaMg_0deg',0.0)
-    # Column5 = ReturnTableEntry('MCS_ESW_CaMg_NaCl_25deg','ESW_CaMg_NaCl_25deg',25.0)
-    # Column6 = ReturnTableEntry('MCS_ESW_CaMg_NaCl_0deg','ESW_CaMg_NaCl_0deg',0.0)
-    # Column7 = ReturnTableEntry('MCS_ESW_CaMgSO4_NaCl_25deg','ESW_CaMgSO4_NaCl_25deg',25.0)
-    # Column8 = ReturnTableEntry('MCS_ESW_CaMgSO4_NaCl_0deg','ESW_CaMgSO4_NaCl_0deg',0.0)
+    Column3 = ReturnTableEntry('MCS_ESW_CaMg_25deg','ESW_CaMg_25deg',25.0)
+    Column4 = ReturnTableEntry('MCS_ESW_CaMg_0deg','ESW_CaMg_0deg',0.0)
+    Column5 = ReturnTableEntry('MCS_ESW_CaMg_NaCl_25deg','ESW_CaMg_NaCl_25deg',25.0)
+    Column6 = ReturnTableEntry('MCS_ESW_CaMg_NaCl_0deg','ESW_CaMg_NaCl_0deg',0.0)
+    Column7 = ReturnTableEntry('MCS_ESW_CaMgSO4_NaCl_25deg','ESW_CaMgSO4_NaCl_25deg',25.0)
+    Column8 = ReturnTableEntry('MCS_ESW_CaMgSO4_NaCl_0deg','ESW_CaMgSO4_NaCl_0deg',0.0)
 
     # ------------------ Concatenate and write to file ------------------ #
-    df = pd.concat([Column1, Column2], axis=1)
+    df = pd.concat([Column1, Column2, Column3, Column4, Column5, Column6, Column7, Column8], axis=1)
     # NOTE: If using a different number of compositions, be sure to edit [Column 1, Column 2...] to reflect the correct number of columns.
 
     df.to_csv('Table1.csv')
