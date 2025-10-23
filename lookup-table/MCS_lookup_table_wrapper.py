@@ -16,7 +16,7 @@ df_loc = MCSdf.loc[(ca == ca_in) & (mg == mg_in)]
 
 # Set default variables (note modern surface ocean temperature, salinity - can be altered if desired)
 TempC = 25.0
-Sal = 34.900901
+Sal = 35
 TempK = TempC + 273.15
 sqrtSal = np.sqrt(Sal)
 lnTempK = np.log(TempK)
