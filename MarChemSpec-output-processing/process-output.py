@@ -209,7 +209,7 @@ class GenerateTableEntry():
         # ------------------ Create dataframe ------------------ #  
 
         data = [self.K0, self.K1, self.K2, self.KB, self.KW, self.KspC, self.KspA, self.KS, tempC, self.Sal, self.Output.molCa, self.Output.molMg, self.Output.molSO4, self.IonicStr, self.pHF, self.pHT, self.ALK, self.DIC, self.Omega]
-        self.Column = pd.DataFrame(data, columns=[comptype], index=['K0','K1','K2','KB','KW','KspC','KspA','KS','TempC','Sal','Ca2+','Mg2+','SO42-','IonicStr','pHF','pHT','ALK', 'DIC','Omega'])
+        self.Column = pd.DataFrame(data, columns=[comptype], index=['K0','K1','K2','KB','KW','KspC','KspA','KS','TempC','SalA','Ca2+','Mg2+','SO42-','IonicStr','pHF','pHT','ALK', 'DIC','Omega'])
 
 
 if __name__ == '__main__':
