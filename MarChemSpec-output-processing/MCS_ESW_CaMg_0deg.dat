@@ -1,0 +1,49 @@
+# ###############################################################################
+#                                                                               #
+# DATA INPUT FILE                                                               #
+#                                                                               #
+# Enter the temperatures (K) and the concentrations of solute species for all   #
+# problems here. Concentrations can be specified in three ways:                 #
+#                                                                               #
+#    1. Molalities of the individual species (moles per kg of pure water).      #
+#                                                                               #
+#    2. Amount contents of the individual species (moles per kg of solution).   #
+#                                                                               #
+#    3. Practical salinity of a seawater solution.                              #
+#                                                                               #
+# In cases 1 and 2 the species concentrations must be input in the same order   #
+# as the species are listed in the master file (ending .mst), and in the        #
+# program documentation:                                                        #
+#                                                                               #
+#    H, Na, Mg, Ca, K, MgOH, Sr, MgF, CaF, Cl, SO4, HSO4, OH, Br, HCO3,         #
+#                                                                               #
+#    CO3, B(OH)4, F, B(OH)3, CO2, HF, MgCO3, CaCO3, SrCO3                       #
+#                                                                               #
+# Enter as many lines of data as necessary. Comment lines (those beginning      #
+# '#', or '!') will be ignored.                                                 #
+#                                                                               #
+#                                                                               #
+# Example: data entry for 2 seawater solutions, specified as salinites          #
+#     #    T        S                                                           #
+#        298.15    35.0                                                         #
+#        298.15    25.0                                                         #
+#                                                                               #
+# The lines containing column headers, above, are commented out (by '#' in      #
+# the first column) so program does not attempt to read them.                   #
+#                                                                               #
+# The input data (temperatures and compositions) should begin on the first      # 
+# non-comment line following the choice of the type of input, below.            #  
+#                                                                               #
+# END OF DESCRIPTION ############################################################
+#
+#
+#
+Enter the type of input composition (1, 2 or 3): 2
+#
+#
+#
+273.15    0.0000000E+00  0.4860597E+0   0.0352   0.0176   1.057970E-02   0.000000E+00   9.400000E-05   0.000000E+00   0.000000E+00   0.540567   2.926430E-02   0.000000E+00   8.200000E-06   8.728000E-04   1.780300E-03   2.477000E-04   1.045000E-04   7.080000E-05   3.258000E-04   1.000000E-05   0.000000E+00   0.000000E+00   0.000000E+00   0.000000E+00  
+#
+#
+#
+=== end of data ===
