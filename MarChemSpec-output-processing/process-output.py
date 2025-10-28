@@ -160,15 +160,59 @@ class GenerateTableEntry():
         ThermoKspC = np.exp(303.1308 - np.divide(13348.09,tempK) -48.7537*np.log(tempK))
         ThermoKspA = np.exp(303.5363 - np.divide(13348.09,tempK) - 48.7537*np.log(tempK)) 
 
+        # ------------------ Empirical Ks ------------------ #  
+        S = 35
+        IM = np.divide(19.924*S , (1000-(1.05*S)))
+        K0_Dickson = np.exp(93.4517*(100/tempK) - 60.2409 + 23.3585*(np.log(tempK/100)) + S*(0.023517 - 0.023656*(tempK/100) + 0.0047036*(np.power((tempK/100),2))))
+        K1_Dickson = np.power(10,((61.2172) + (-3633.86)/tempK + (-9.6777)*np.log(tempK) + (0.011555)*S + (-0.0001152)*S*S))
+        K2_Dickson = np.power(10,((-471.78/tempK) - 25.9290 + 3.16967*(np.log(tempK)) + 0.01781*S - 0.0001122*(np.power(S,2))))
+        KB_Dickson = np.exp((np.divide((-8966.9 - 2890.53*(np.power(S,0.5)) - 77.942*S + 1.728*(np.power(S,1.5)) - 0.0996*(np.power(S,2))),tempK)) + (148.0248 + 137.1942*(np.power(S,0.5)) + 1.62142*S) + ((-24.4344 - 25.085*(np.power(S,0.5)) - 0.2474*S)*np.log(tempK)) + 0.053105*(np.power(S,0.5))*tempK)
+        KW_Dickson = np.exp(np.divide(-13847.26,tempK) + 148.9652 - 23.6521*np.log(tempK) + (np.divide(118.67,tempK) - 5.977 + 1.0495*np.log(tempK))*(np.power(S,0.5)) - 0.01615*S)
+        KspC_Dickson = np.power(10,(-171.9065 - 0.077993*tempK + np.divide(2839.319,tempK) + 71.595*(np.log10(tempK)) + (-0.77712 + 0.0028426*tempK + np.divide(178.34,tempK))*(np.power(S,0.5)) - 0.07711*S + 0.0041249*(np.power(S,1.5))))
+        KspA_Dickson = np.power(10,(-171.945 - 0.077993*tempK + np.divide(2903.293,tempK) + 71.595*(np.log10(tempK)) + (-0.068393 + 0.0017276*tempK + np.divide(88.135,tempK))*(np.power(S,0.5)) - 0.10018*S + 0.0059415*(np.power(S,1.5))))
+        KS_Dickson = np.exp((np.divide(-4276.1,tempK)) + 141.328 - 23.093*(np.log(tempK)) + ( (np.divide(-13856,tempK) + 324.57 - 47.986*(np.log(tempK))) * (np.power((IM),0.5)) ) + ( (np.divide(35474,tempK) - 771.54 + 114.723*(np.log(tempK))) * (IM) ) - (np.divide(2698,tempK))*(np.power(IM,1.5)) + (np.divide(1776,tempK))*(np.power(IM,2)) + np.log(1-0.001005*S))
+
         # ------------------ Calculate Ks ------------------ #
+
         self.K0 = np.divide(self.Output.molCO2, self.Output.fCO2) # No internal MCS K0 calculation
         self.K1 = self.Output.K1
         self.K2 = self.Output.K2
         self.KB = self.Output.KB
         self.KW = self.Output.KW
-        self.KspC = np.divide(ThermoKspC, np.multiply(self.Output.gammaCa, (self.Output.gammaCO3 * np.divide(self.Output.molCO3 ,(self.Output.molCO3 + self.Output.molCaCO3 + self.Output.molMgCO3 + self.Output.molSrCO3) )))) # Modify internal MCS KspC calculation
-        self.KspA = np.divide(ThermoKspA, np.multiply(self.Output.gammaCa, (self.Output.gammaCO3 * np.divide(self.Output.molCO3 ,(self.Output.molCO3 + self.Output.molCaCO3 + self.Output.molMgCO3 + self.Output.molSrCO3) )))) # No internal MCS KspA calculation
+        self.KspC = np.divide(ThermoKspC, np.multiply(self.Output.gammaCa, (self.Output.gammaCO3 * np.divide(self.Output.molCO3 ,(self.Output.molCO3 + self.Output.molCaCO3 + self.Output.molMgCO3 + self.Output.molSrCO3) )))) # Modify internal MCS KspC calculation, include ion pairing effects
+        self.KspA = np.divide(ThermoKspA, np.multiply(self.Output.gammaCa, (self.Output.gammaCO3 * np.divide(self.Output.molCO3 ,(self.Output.molCO3 + self.Output.molCaCO3 + self.Output.molMgCO3 + self.Output.molSrCO3) )))) # No internal MCS KspA calculation, include ion pairing effects
         self.KS = self.Output.KS
+
+        # ------------------ OPTIONAL bias correction ------------------ #
+
+        # NOTE: OPTIONAL bias correction to remedy the (minor) offset between modern MCS Ks and empirical Ks (Dickson, 2010)
+        # Eq. S2 from Hain et al. (2015), see reference for details
+        # To toggle off and print only raw MCS Ks, comment out lines 194-215
+
+        # Must provide modern MCS Ks for the specified temperature.
+        # To use the bias correction for a temperature other than 25º or 0º, run MarChemSpec with modern SW composition and create a new list of modern K values at that temperature. Add a new elif statement the same as the ones below.
+        K_MCS_modern_25 = [2.868592e-02,1.465750e-06,1.085208e-09,2.466113e-09,6.088776e-14,4.685759e-07,7.028884e-07,1.041160e-01]
+        K_MCS_modern_0 = [6.423481e-02,7.587261e-07,3.747503e-10,1.157564e-09,5.035354e-15,4.609165e-07,6.913989e-07,2.245352e-01]
+        if tempC == 25:
+            self.K0 = K0_Dickson + self.K0 - K_MCS_modern_25[0]
+            self.K1 = K1_Dickson + self.K1 - K_MCS_modern_25[1]
+            self.K2 = K2_Dickson + self.K2 - K_MCS_modern_25[2]
+            self.KB = KB_Dickson + self.KB - K_MCS_modern_25[3]
+            self.KW = KW_Dickson + self.KW - K_MCS_modern_25[4]
+            self.KspC = KspC_Dickson + self.KspC - K_MCS_modern_25[5]
+            self.KspA = KspA_Dickson + self.KspA - K_MCS_modern_25[6]
+            self.KS = KS_Dickson + self.KS - K_MCS_modern_25[7]
+        elif tempC == 0:
+            self.K0 = K0_Dickson + self.K0 - K_MCS_modern_0[0]
+            self.K1 = K1_Dickson + self.K1 - K_MCS_modern_0[1]
+            self.K2 = K2_Dickson + self.K2 - K_MCS_modern_0[2]
+            self.KB = KB_Dickson + self.KB - K_MCS_modern_0[3]
+            self.KW = KW_Dickson + self.KW - K_MCS_modern_0[4]
+            self.KspC = KspC_Dickson + self.KspC - K_MCS_modern_0[5]
+            self.KspA = KspA_Dickson + self.KspA - K_MCS_modern_0[6]
+            self.KS = KS_Dickson + self.KS - K_MCS_modern_0[7]
+        else:
+            print('\nScript could not find modern MarChemSpec Ks at the specified tempC in order to compute a bias correction. Continuing with un-corrected (raw) Ks for any runs with tempC =/= 25º or 0ºC.')
 
 
     def CalculateChem(self, comptype):
@@ -233,6 +277,10 @@ if __name__ == '__main__':
     # ------------------ Concatenate and write to file ------------------ #
     df = pd.concat([Column1, Column2, Column3, Column4, Column5, Column6, Column7, Column8], axis=1)
     # NOTE: If using a different number of compositions, be sure to edit [Column 1, Column 2...] to reflect the correct number of columns.
+    
+    print('\n')
+    print(df)
+    print('\n')
 
     df.to_csv('Table1.csv')
 
