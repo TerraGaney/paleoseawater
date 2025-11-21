@@ -247,13 +247,12 @@ class GenerateTableEntry():
         self.ALK = 2388
         self.DIC = 2038
     
-
     def TableEntry(self, comptype, tempC):
 
         # ------------------ Create dataframe ------------------ #  
 
-        data = [self.K0, self.K1, self.K2, self.KB, self.KW, self.KspC, self.KspA, self.KS, tempC, self.Sal, self.Output.molCa, self.Output.molMg, self.Output.molSO4, self.IonicStr, self.pHF, self.pHT, self.ALK, self.DIC, self.Omega]
-        self.Column = pd.DataFrame(data, columns=[comptype], index=['K0','K1','K2','KB','KW','KspC','KspA','KS','TempC','SalA','Ca2+','Mg2+','SO42-','IonicStr','pHF','pHT','ALK', 'DIC','Omega'])
+        data = [-np.log10(self.K0), -np.log10(self.K1), -np.log10(self.K2), -np.log10(self.KB), -np.log10(self.KW), -np.log10(self.KspC), -np.log10(self.KspA), -np.log10(self.KS), tempC, self.Sal, self.Output.molCa, self.Output.molMg, self.Output.molSO4, self.Output.molNa, self.Output.molCl, self.IonicStr, self.pHF, self.pHT, self.ALK, self.DIC, self.Omega, self.Output.pCO2*1e6]
+        self.Column = pd.DataFrame(data, columns=[comptype], index=['pK0','pK1','pK2','pKB','pKH2O','pKspC','pKspA','pKHSO4','TempC','SalA','Ca2+','Mg2+','SO42-','Na+','Cl-','IonicStr','pHF','pHT','ALK','DIC','Omega','pCO2'])
 
 
 if __name__ == '__main__':
@@ -282,5 +281,5 @@ if __name__ == '__main__':
     print(df)
     print('\n')
 
-    df.to_csv('Table1.csv')
+    df.to_csv('Table.csv')
 
