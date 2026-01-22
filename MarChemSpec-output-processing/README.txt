@@ -4,9 +4,10 @@ This folder contains:
 (1) 8 MarChemSpec input files (.dat)
 (2) 8 corresponding MarChemSpec output files for ion activities and concentrations (.rs2)
 (3) 8 corresponding MarChemSpec output files for K calculations (.rs5)
-(4) a script for processing raw MarChemSoec output and calculating key paleo-seawater properties
+(4) a script for processing raw MarChemSpec output and calculating key paleo-seawater properties
+(5) script output and processing results (Table.csv)
 
-The processing routine process-output.py was used to generate Table 1 and Table 3 in Ganey et al. (in prep). The script calculates various paleo-seawater chemical properties based on MarChemSpec model results, and writes to Table.csv.
+The processing routine process-output.py was used to generate Table 1 and Table 3 in Ganey et al. (GBC; 2026). The script calculates various paleo-seawater chemical properties based on MarChemSpec model results, and writes to Table.csv.
 
 ================================================================================
 
@@ -37,4 +38,4 @@ Properties calculated and/or tabulated include:
 (14) calcium carbonate saturation state (Omega)
 (15) partial pressure of CO2 (uatm)
 
-See Ganey et al. (in prep) for full formulas and description. Note that to run MarChemSpec independently with any of these example files, the filename will need to be changed back to 'MCS.dat' and the file placed in the user's MarChemSpec root folder. See official MarChemSpec documentation for information on how to run the model (marchemspec.org).
+See Ganey et al. (GBC; 2026) for full formulas and description. Note that to run MarChemSpec independently with any of these example files, the filename will need to be changed back to 'MCS.dat' and the file placed in the user's MarChemSpec root folder. See official MarChemSpec documentation for information on how to run the model (marchemspec.org).
