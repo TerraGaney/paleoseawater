@@ -218,7 +218,7 @@ class GenerateTableEntry():
     def CalculateChem(self, comptype):
 
         # ------------------ Salinity ------------------ #  
-        self.Sal = (self.Output.molH*1.0078 + self.Output.molNa*22.9899 + self.Output.molMg*24.305 + self.Output.molCa*40.078 + self.Output.molK*39.098 + self.Output.molSr*87.62 + self.Output.molCl*35.45 + self.Output.molSO4*96.06 + self.Output.molOH*17.008 + self.Output.molBr*79.9 + self.Output.molHCO3*61.062 + self.Output.molCO3*60.01 + self.Output.molBOH4*78.84 + self.Output.molF*18.99 + self.Output.molBOH3*61.832 + self.Output.molCO2*44.01)*0.96355343
+        self.Sal = (self.Output.molH*1.0078 + self.Output.molNa*22.9899 + self.Output.molMg*24.305 + self.Output.molCa*40.078 + self.Output.molK*39.098 + self.Output.molMgOH*58.32 + self.Output.molSr*87.62 + self.Output.molMgF*43.305 + self.Output.molCaF*59.078 + self.Output.molCl*35.45 + self.Output.molSO4*96.06 + self.Output.molHSO4*97.06 + self.Output.molOH*17.008 + self.Output.molBr*79.9 + self.Output.molHCO3*61.062 + self.Output.molCO3*60.01 + self.Output.molBOH4*78.84 + self.Output.molF*18.99 + self.Output.molBOH3*61.832 + self.Output.molCO2*44.01 + self.Output.molHF*20.01 + self.Output.molCaCO3*100.09 + self.Output.molMgCO3*84.32 + self.Output.molSrCO3*147.63)*0.96355343
         
         # ------------------ Ionic strength ------------------ #  
         m_z_H = self.Output.molH * 1
@@ -251,8 +251,8 @@ class GenerateTableEntry():
 
         # ------------------ Create dataframe ------------------ #  
 
-        data = [-np.log10(self.K0), -np.log10(self.K1), -np.log10(self.K2), -np.log10(self.KB), -np.log10(self.KW), -np.log10(self.KspC), -np.log10(self.KspA), -np.log10(self.KS), tempC, self.Sal, self.Output.molCa, self.Output.molMg, self.Output.molSO4, self.Output.molNa, self.Output.molCl, self.IonicStr, self.pHF, self.pHT, self.ALK, self.DIC, self.Omega, self.Output.pCO2*1e6]
-        self.Column = pd.DataFrame(data, columns=[comptype], index=['pK0','pK1','pK2','pKB','pKH2O','pKspC','pKspA','pKHSO4','TempC','SalA','Ca2+','Mg2+','SO42-','Na+','Cl-','IonicStr','pHF','pHT','ALK','DIC','Omega','pCO2'])
+        data = [-np.log10(self.K0), -np.log10(self.K1), -np.log10(self.K2), -np.log10(self.KB), -np.log10(self.KW), -np.log10(self.KspC), -np.log10(self.KspA), -np.log10(self.KS), tempC, self.Sal, (self.Output.molCa+self.Output.molCaCO3+self.Output.molCaF), (self.Output.molMg+self.Output.molMgCO3+self.Output.molMgF), (self.Output.molSO4+self.Output.molHSO4), self.Output.molNa, self.Output.molCl, self.IonicStr, self.pHF, self.pHT, self.ALK, self.DIC, self.Omega, self.Output.pCO2*1e6]
+        self.Column = pd.DataFrame(data, columns=[comptype], index=['pK0','pK1','pK2','pKB','pKH2O','pKspC','pKspA','pKHSO4','TempC','SalA','Ca2+ (total)','Mg2+ (total)','SO42- (total)','Na+','Cl-','IonicStr','pHF','pHT','ALK','DIC','Omega','pCO2'])
 
 
 if __name__ == '__main__':
