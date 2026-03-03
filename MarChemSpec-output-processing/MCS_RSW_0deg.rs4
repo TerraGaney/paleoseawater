@@ -1,0 +1,14 @@
+ Seawater and carbonate system quantities (molality basis)
+ ---------------------------------------------------------
+
+ The results printed in this file are common quantities related to the
+ carbonate system, and stoichiometric dissociation or formation constants
+ (see the manual for definitions). Quantities related to the solution phase
+ are all on a molality basis: moles per kg of pure water solvent.
+
+ Quantities that cannot be calculated for the current solution, because some
+ required solute species are not present, are assigned a missing value code
+ of 99.0.
+
+ iCount     T         P        pH_T          upH_T     pH_SW         upH_SW    pH_F          upH_F     pCO2          upCO2     fCO2          ufCO2     DIC           uDIC      TotAlk        uTotAlk     KCO2_T        uKCO2_T     KHCO3_T       uKHCO3_T    KBOH3_T       uKBOH3_T    KH2O_T        uKH2O_T     KHF_T         uKHF_T      KCO2_SW       uKCO2_SW    KHCO3_SW      uKHCO3_SW   KBOH3_SW      uKBOH3_SW   KH2O_SW       uKH2O_SW    KCO2_F        uKCO2_F     KHCO3_F       uKHCO3_F    KBOH3_F       uKBOH3_F    KH2O_F        uKH2O_F     KHF_F         uKHF_F      KHSO4_F       uKHSO4_F    Ca_CO3        uCa_CO3
+      1  273.15  1.00000E+00   8.530326E+00  1.3E-02   8.522663E+00  1.3E-02   8.582885E+00  1.3E-02   1.025342E-04  4.2E-06   1.014997E-04  4.2E-06   2.038000E-03  9.9E+01   2.388400E-03  9.9E+01     7.801099E-07  2.0E-08     3.807115E-10  1.6E-11     1.182397E-09  2.5E-11     5.334602E-15  1.3E-16     3.976746E-03  1.1E-04     7.939986E-07  2.0E-08     3.874895E-10  1.6E-11     1.203448E-09  2.5E-11     5.429577E-15  1.4E-16     6.911890E-07  1.8E-08     3.373161E-10  1.4E-11     1.047622E-09  2.2E-11     4.726537E-15  1.2E-16     3.523457E-03  1.0E-04     2.274737E-01  1.3E-02     2.474971E-06  2.9E-08
